@@ -1,0 +1,58 @@
+const produtos = [
+  { nome: "Pão Francês", preco: 3, estoque: 100 },
+  { nome: "Bolo de Milho", preco: 5, estoque: 20 },
+  { nome: "Pão Doce", preco: 4, estoque: 30 }
+];
+
+let carrinho = [];
+
+function renderizarProdutos() {
+  const container = document.getElementById("produtos");
+  container.innerHTML = "";
+  produtos.forEach((p, index) => {
+    const div = document.createElement("div");
+    div.className = "produto";
+    div.innerHTML = `
+      <span>${p.nome} - R$${p.preco} (${p.estoque} un.)</span>
+      <button onclick="adicionarProduto(${index})">+</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function adicionarProduto(index) {
+  const produto = produtos[index];
+  if (produto.estoque > 0) {
+    carrinho.push(produto);
+    produto.estoque--;
+    atualizarTotal();
+    renderizarProdutos();
+  } else {
+    alert("Estoque esgotado!");
+  }
+}
+
+function atualizarTotal() {
+  const total = carrinho.reduce((acc, p) => acc + p.preco, 0);
+  document.getElementById("total").textContent = total.toFixed(2);
+}
+
+function finalizarVenda() {
+  if (carrinho.length === 0) {
+    alert("Nenhum produto no carrinho.");
+    return;
+  }
+
+  const data = {
+    data: new Date().toLocaleString(),
+    itens: carrinho.map(p => p.nome),
+    total: carrinho.reduce((acc, p) => acc + p.preco, 0)
+  };
+
+  console.log("Venda registrada:", data);
+  document.getElementById("mensagem").textContent = "Venda registrada com sucesso!";
+
+  carrinho = [];
+  atualizarTotal();
+}
+renderizarProdutos();
