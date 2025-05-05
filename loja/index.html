@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja | Padaria</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h1>Loja da Padaria</h1>
+  <div class="produto">
+    <label><input type="checkbox" value="3" data-nome="Pão Francês"> Pão Francês - R$3</label>
+  </div>
+  <div class="produto">
+    <label><input type="checkbox" value="5" data-nome="Bolo de Milho"> Bolo de Milho - R$5</label>
+  </div>
+  <div class="produto">
+    <label><input type="checkbox" value="4" data-nome="Pão Doce"> Pão Doce - R$4</label>
+  </div>
+  <div class="total">Total: R$<span id="total">0</span></div>
+  <button onclick="enviarPedido()">Enviar Pedido</button>
+  <script>
+    const checkboxes = document.querySelectorAll('input[type=checkbox]');
+    const totalSpan = document.getElementById('total');
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        let total = 0;
+        checkboxes.forEach(c => {
+          if (c.checked) total += parseFloat(c.value);
+        });
+        totalSpan.textContent = total.toFixed(2);
+      });
+    });
+    function enviarPedido() {
+      let pedido = [];
+      checkboxes.forEach(cb => {
+        if (cb.checked) pedido.push(cb.getAttribute('data-nome'));
+      });
+      const msg = `Olá! Gostaria de comprar: ${pedido.join(', ')}. Total: R$${totalSpan.textContent}`;
+      window.open(`https://wa.me/55SEUNUMERO?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+  </script>
+</body>
+</html>

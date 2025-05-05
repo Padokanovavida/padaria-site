@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encomendas | Padaria</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h1>Faça sua Encomenda</h1>
+  <form id="orderForm">
+    <input type="text" placeholder="Seu nome" id="name" required><br>
+    <input type="tel" placeholder="WhatsApp" id="phone" required><br>
+    <select id="product">
+      <option value="Pão Francês">Pão Francês</option>
+      <option value="Bolo de Milho">Bolo de Milho</option>
+      <option value="Pão Doce">Pão Doce</option>
+    </select><br>
+    <input type="date" id="date" required>
+    <input type="time" id="time" required><br>
+    <textarea id="notes" placeholder="Observações"></textarea><br>
+    <button type="submit">Enviar Pedido</button>
+  </form>
+  <script>
+    const form = document.getElementById('orderForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const product = document.getElementById('product').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const notes = document.getElementById('notes').value;
+      const msg = `Olá! Quero encomendar: ${product}%0ANome: ${name}%0AWhatsApp: ${phone}%0AData: ${date}%0AHorário: ${time}%0AObs: ${notes}`;
+      const url = `https://wa.me/55SEUNUMERO?text=${msg}`;
+      window.open(url, '_blank');
+    });
+  </script>
+</body>
+</html>
